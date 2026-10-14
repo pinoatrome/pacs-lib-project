@@ -1,6 +1,6 @@
 """Every pacs message the library builds, and every pacs fixture, against ISO 20022's schemas.
 
-The schemas in tests/xsd/ are the Payments Clearing and Settlement
+The schemas in pacs/xsd/ are the Payments Clearing and Settlement
 message set of the ISO 20022 catalogue, 2025/2026 edition: newer versions than the
 library writes (pacs.002.001.10, .004.001.09, .008.001.08, .028.001.03, the ones
 TARGET and DESP use). A message is checked against the newer version with its
@@ -9,11 +9,9 @@ elements, so a message valid in both is valid ISO 20022 in its own version too.
 """
 from datetime import datetime, timezone
 from decimal import Decimal
-from functools import cache
 from pathlib import Path
 
 import pytest
-from lxml import etree
 
 from pacs import (
     CreditTransfer,
@@ -28,39 +26,16 @@ from pacs import (
     build_pacs004,
     build_pacs008,
     build_pacs028,
+    schema_errors,
 )
 from pacs.pacs004 import FOLLOWING_CANCELLATION_REQUEST
+from pacs.validation import SCHEMA_VERSIONS
 
 FIXTURES = Path(__file__).parent / "fixtures"
-SCHEMAS = Path(__file__).parent / "xsd"
-
-# The schema checking each message: its message name -> the version in SCHEMAS.
-SCHEMA_VERSIONS = {
-    "pacs.002": "pacs.002.001.16",
-    "pacs.004": "pacs.004.001.15",
-    "pacs.008": "pacs.008.001.14",
-    "pacs.028": "pacs.028.001.07",
-}
 
 NOW = datetime(2026, 10, 11, 9, 30, tzinfo=timezone.utc)
 ALICE = Party(name="Alice Rossi", other_id="DEAN-IT-0001-ALPHA")
 SHOP = Party(name="Shop SRL", iban="IT60X0542811101000000654321")
-
-
-@cache
-def schema(version: str) -> etree.XMLSchema:
-    return etree.XMLSchema(etree.parse(str(SCHEMAS / f"{version}.xsd")))
-
-
-def schema_errors(xml: bytes) -> list[str]:
-    """What the schema of `xml`'s message finds wrong in it; empty when it's valid."""
-    root = etree.fromstring(xml)
-    own_version = etree.QName(root).namespace.rsplit(":", 1)[1]
-    version = SCHEMA_VERSIONS[own_version[:8]]
-    checker = schema(version)
-    if checker.validate(etree.fromstring(xml.replace(own_version.encode(), version.encode(), 1))):
-        return []
-    return [error.message for error in checker.error_log]
 
 
 # Each message with every optional element the library can write.

@@ -62,6 +62,55 @@ from pacs import PaymentStatusReport, StatusRequest, TransactionStatus, build_pa
 See each module's docstring (`pacs/pacs002.py`, `pacs004.py`, `pacs028.py`) for
 its objects, and `tests/` for more examples.
 
+## Validation
+
+`validate(xml)` checks a document against ISO 20022's schemas, which ship in
+the package (`pacs/xsd/`), and returns it, or raises `PacsValidationError` whose
+`errors` are the schema's findings; `schema_errors(xml)` returns the findings
+as a list (empty when valid) instead of raising.
+
+```python
+from pacs import PacsValidationError, validate
+
+try:
+    validate(xml)
+except PacsValidationError as exc:
+    print(exc.errors)
+```
+
+The schemas are the Payments Clearing and Settlement set of the catalogue,
+2025/2026 edition (pacs.002.001.16, .004.001.15, .008.001.14, .028.001.07):
+newer versions than the library writes (the ones TARGET and DESP use), so a
+document is checked against the newer version with its namespace changed to that
+version's. Newer versions mostly add optional elements, so a document valid in
+both is valid ISO 20022 in its own version too. A document that isn't XML or
+isn't a pacs.002, .004, .008 or .028 is one error.
+
+## Valid documents for tests
+
+`pacs.testing` makes complete pacs documents for the tests of a system that
+reads or sends them, so they don't depend on hand-written XML files nobody has
+checked. Each function builds the document with the library and runs it
+through `validate` before returning it; everything has a default, and a test
+passes only what it is about:
+
+```python
+from pacs.testing import (
+    credit_transfer_xml,   # pacs.008: message_id, end_to_end_id, amount, debtor, creditor, ...
+    status_report_xml,     # pacs.002: original_message_id, end_to_end_ids, status, reason_code, ...
+    rejected_report_xml,   # pacs.002 with RJCT and a reason_code (AM04 by default)
+    status_request_xml,    # pacs.028: original_message_id, end_to_end_ids
+    payment_return_xml,    # pacs.004: original_message_id, original_end_to_end_id, amount, reason_code
+)
+
+answer = status_report_xml(original_message_id="PSPCORE-0001", end_to_end_ids=["PSPPAY-0001"])
+refusal = rejected_report_xml(original_message_id="PSPCORE-0001", end_to_end_ids=["PSPPAY-0001"], reason_code="AM04")
+```
+
+A party is an IBAN (`IT60X0542811101000000654321`) or another id such as a DEAN
+(`DEAN-IT-0001-ALPHA`). To check what a system under test *sends*, pass it
+to `validate`.
+
 ## Tests
 
 ```bash
@@ -70,10 +119,5 @@ pytest
 ```
 
 `tests/test_schemas.py` checks every message the library builds, and every
-fixture in `tests/fixtures/`, against the ISO 20022 schemas in `tests/xsd/`:
-the Payments Clearing and Settlement set of the catalogue, 2025/2026 edition
-(pacs.002.001.16, .004.001.15, .008.001.14, .028.001.07). They are newer
-versions than the library writes (the ones TARGET and DESP use), so a message
-is checked against the newer version with its namespace changed to that
-version's: newer versions mostly add optional elements, so a message valid in
-both is valid ISO 20022 in its own version too.
+fixture in `tests/fixtures/`, against the schemas; `tests/test_testing.py` does
+the same for the documents `pacs.testing` makes.

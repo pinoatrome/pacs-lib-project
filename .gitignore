@@ -22,3 +22,8 @@ htmlcov/
 
 # local dev stuff
 run/
+
+# Packaging
+build/
+dist/
+*.egg-info/
