@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.10">
+  <FIToFIPmtStsRpt>
+    <GrpHdr>
+      <MsgId>DESP-STS-0001</MsgId>
+      <CreDtTm>2026-10-06T10:12:01.000Z</CreDtTm>
+    </GrpHdr>
+    <OrgnlGrpInfAndSts>
+      <OrgnlMsgId>PSPPAY-0001</OrgnlMsgId>
+      <OrgnlMsgNmId>pacs.008.001.08</OrgnlMsgNmId>
+      <GrpSts>ACSC</GrpSts>
+    </OrgnlGrpInfAndSts>
+  </FIToFIPmtStsRpt>
+</Document>

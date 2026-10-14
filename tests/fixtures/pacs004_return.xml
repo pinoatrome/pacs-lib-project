@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- A return, as another PSP would send it: part of a payment it received sent back
+     following a recall (FOCR), and a whole one to a closed account (AC04). -->
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.004.001.09">
+  <PmtRtr>
+    <GrpHdr>
+      <MsgId>BCIRTR-0001</MsgId>
+      <CreDtTm>2026-10-11T09:30:00Z</CreDtTm>
+      <NbOfTxs>2</NbOfTxs>
+      <TtlRtrdIntrBkSttlmAmt Ccy="EUR">165.50</TtlRtrdIntrBkSttlmAmt>
+      <SttlmInf>
+        <SttlmMtd>CLRG</SttlmMtd>
+      </SttlmInf>
+    </GrpHdr>
+    <TxInf>
+      <RtrId>RTR-0001</RtrId>
+      <OrgnlGrpInf>
+        <OrgnlMsgId>PSPPAY-0001</OrgnlMsgId>
+        <OrgnlMsgNmId>pacs.008.001.08</OrgnlMsgNmId>
+      </OrgnlGrpInf>
+      <OrgnlInstrId>INSTR-0101</OrgnlInstrId>
+      <OrgnlEndToEndId>E2E-DEUR-0101</OrgnlEndToEndId>
+      <OrgnlIntrBkSttlmAmt Ccy="EUR">120.00</OrgnlIntrBkSttlmAmt>
+      <RtrdIntrBkSttlmAmt Ccy="EUR">120.00</RtrdIntrBkSttlmAmt>
+      <ChrgBr>SLEV</ChrgBr>
+      <RtrRsnInf>
+        <Rsn>
+          <Cd>FOCR</Cd>
+        </Rsn>
+        <AddtlInf>Recall accepted: payment made by mistake</AddtlInf>
+      </RtrRsnInf>
+      <OrgnlTxRef>
+        <Dbtr>
+          <Pty>
+            <Nm>Alice Rossi</Nm>
+          </Pty>
+        </Dbtr>
+        <DbtrAcct>
+          <Id>
+            <Othr>
+              <Id>DEAN-IT-0001-ALPHA</Id>
+            </Othr>
+          </Id>
+        </DbtrAcct>
+        <DbtrAgt>
+          <FinInstnId>
+            <BICFI>UNCRITM1XXX</BICFI>
+          </FinInstnId>
+        </DbtrAgt>
+        <CdtrAgt>
+          <FinInstnId>
+            <BICFI>BCITITMMXXX</BICFI>
+          </FinInstnId>
+        </CdtrAgt>
+        <Cdtr>
+          <Pty>
+            <Nm>Shop SRL</Nm>
+          </Pty>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>IT60X0542811101000000654321</IBAN>
+          </Id>
+        </CdtrAcct>
+      </OrgnlTxRef>
+    </TxInf>
+    <TxInf>
+      <RtrId>RTR-0002</RtrId>
+      <OrgnlGrpInf>
+        <OrgnlMsgId>PSPPAY-0001</OrgnlMsgId>
+        <OrgnlMsgNmId>pacs.008.001.08</OrgnlMsgNmId>
+      </OrgnlGrpInf>
+      <OrgnlEndToEndId>E2E-DEUR-0102</OrgnlEndToEndId>
+      <OrgnlTxId>TX-0102</OrgnlTxId>
+      <RtrdIntrBkSttlmAmt Ccy="EUR">45.50</RtrdIntrBkSttlmAmt>
+      <ChrgBr>SLEV</ChrgBr>
+      <RtrRsnInf>
+        <Rsn>
+          <Cd>AC04</Cd>
+        </Rsn>
+      </RtrRsnInf>
+      <OrgnlTxRef>
+        <Dbtr>
+          <Pty/>
+        </Dbtr>
+        <DbtrAcct>
+          <Id>
+            <Othr>
+              <Id>DEAN-IT-0001-ALPHA</Id>
+            </Othr>
+          </Id>
+        </DbtrAcct>
+        <Cdtr>
+          <Pty/>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>DEAN-IT-0002-BETA</Id>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+      </OrgnlTxRef>
+    </TxInf>
+  </PmtRtr>
+</Document>

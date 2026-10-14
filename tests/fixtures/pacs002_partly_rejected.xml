@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.002.001.10">
+  <FIToFIPmtStsRpt>
+    <GrpHdr>
+      <MsgId>DESP-STS-0002</MsgId>
+      <CreDtTm>2026-10-06T10:12:01.000Z</CreDtTm>
+    </GrpHdr>
+    <OrgnlGrpInfAndSts>
+      <OrgnlMsgId>PSPPAY-0001</OrgnlMsgId>
+      <OrgnlMsgNmId>pacs.008.001.08</OrgnlMsgNmId>
+      <GrpSts>PART</GrpSts>
+    </OrgnlGrpInfAndSts>
+    <TxInfAndSts>
+      <OrgnlInstrId>INSTR-0101</OrgnlInstrId>
+      <OrgnlEndToEndId>E2E-DEUR-0101</OrgnlEndToEndId>
+      <TxSts>ACSC</TxSts>
+    </TxInfAndSts>
+    <TxInfAndSts>
+      <OrgnlEndToEndId>E2E-DEUR-0102</OrgnlEndToEndId>
+      <OrgnlTxId>TX-0102</OrgnlTxId>
+      <TxSts>RJCT</TxSts>
+      <StsRsnInf>
+        <Rsn>
+          <Cd>AM04</Cd>
+        </Rsn>
+        <AddtlInf>Insufficient funds on DEAN-IT-0001-ALPHA</AddtlInf>
+      </StsRsnInf>
+    </TxInfAndSts>
+  </FIToFIPmtStsRpt>
+</Document>

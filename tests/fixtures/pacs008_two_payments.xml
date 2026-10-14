@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.08">
+  <FIToFICstmrCdtTrf>
+    <GrpHdr>
+      <MsgId>PSPPAY-0001</MsgId>
+      <CreDtTm>2026-10-06T10:12:00+00:00</CreDtTm>
+      <NbOfTxs>2</NbOfTxs>
+      <TtlIntrBkSttlmAmt Ccy="EUR">165.50</TtlIntrBkSttlmAmt>
+      <SttlmInf>
+        <SttlmMtd>CLRG</SttlmMtd>
+      </SttlmInf>
+    </GrpHdr>
+    <CdtTrfTxInf>
+      <PmtId>
+        <InstrId>INSTR-0101</InstrId>
+        <EndToEndId>E2E-DEUR-0101</EndToEndId>
+      </PmtId>
+      <IntrBkSttlmAmt Ccy="EUR">120.00</IntrBkSttlmAmt>
+      <ChrgBr>SLEV</ChrgBr>
+      <Dbtr>
+        <Nm>Alice Rossi</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>DEAN-IT-0001-ALPHA</Id>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>UNCRITM1XXX</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <CdtrAgt>
+        <FinInstnId>
+          <BICFI>BCITITMMXXX</BICFI>
+        </FinInstnId>
+      </CdtrAgt>
+      <Cdtr>
+        <Nm>Shop SRL</Nm>
+      </Cdtr>
+      <CdtrAcct>
+        <Id>
+          <Othr>
+            <Id>DEAN-IT-0002-BETA</Id>
+          </Othr>
+        </Id>
+      </CdtrAcct>
+      <RmtInf>
+        <Ustrd>Order 2026-1006</Ustrd>
+      </RmtInf>
+    </CdtTrfTxInf>
+    <CdtTrfTxInf>
+      <PmtId>
+        <EndToEndId>E2E-DEUR-0102</EndToEndId>
+        <TxId>TX-0102</TxId>
+      </PmtId>
+      <IntrBkSttlmAmt Ccy="EUR">45.50</IntrBkSttlmAmt>
+      <ChrgBr>SLEV</ChrgBr>
+      <Dbtr>
+        <Nm>Alice Rossi</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>DEAN-IT-0001-ALPHA</Id>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>UNCRITM1XXX</BICFI>
+        </FinInstnId>
+      </DbtrAgt>
+      <CdtrAgt>
+        <FinInstnId>
+          <BICFI>UNCRITM1XXX</BICFI>
+        </FinInstnId>
+      </CdtrAgt>
+      <Cdtr>
+        <Nm>Bob Bianchi</Nm>
+      </Cdtr>
+      <CdtrAcct>
+        <Id>
+          <IBAN>IT60X0542811101000000654321</IBAN>
+        </Id>
+      </CdtrAcct>
+    </CdtTrfTxInf>
+  </FIToFICstmrCdtTrf>
+</Document>
