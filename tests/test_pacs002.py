@@ -43,7 +43,7 @@ def test_each_transaction_has_its_status_and_reason(partly_rejected):
     assert not settled.rejected
     assert rejected.rejected
     assert (rejected.original_transaction_id, rejected.reason_code, rejected.additional_info) == (
-        "TX-0102", "AM04", "Insufficient funds on DEAN-IT-0001-ALPHA",
+        "TX-0102", "AM04", "Insufficient funds on EU4900000000000001",
     )
     assert report.status_of("E2E-DEUR-0102") == "RJCT"
     assert report.status_of("E2E-UNKNOWN") == "PART"

@@ -27,8 +27,8 @@ def returned(**changes) -> ReturnedTransaction:
         "returned_amount": Decimal("80.00"),
         "reason_code": FOLLOWING_CANCELLATION_REQUEST,
         "additional_info": "Recall accepted",
-        "original_debtor": Party(name="Bruno Bianchi", other_id="DEAN-IT-0002-BETA"),
-        "original_creditor": Party(name="Alice Rossi", other_id="DEAN-IT-0001-ALPHA"),
+        "original_debtor": Party(name="Bruno Bianchi", other_id="EU2200000000000002"),
+        "original_creditor": Party(name="Alice Rossi", other_id="EU4900000000000001"),
         "original_debtor_agent_bic": "BCITITMMXXX",
         "original_creditor_agent_bic": "UNCRITM1XXX",
         **changes,
@@ -60,8 +60,8 @@ def test_build_sends_the_payment_back_with_its_reason():
     assert info.findtext("p:OrgnlEndToEndId", namespaces=NS) == "E2E-DEUR-0420"
     assert info.findtext("p:RtrRsnInf/p:Rsn/p:Cd", namespaces=NS) == "FOCR"
     assert info.findtext("p:OrgnlTxRef/p:Dbtr/p:Pty/p:Nm", namespaces=NS) == "Bruno Bianchi"
-    assert info.findtext("p:OrgnlTxRef/p:DbtrAcct/p:Id/p:Othr/p:Id", namespaces=NS) == "DEAN-IT-0002-BETA"
-    assert info.findtext("p:OrgnlTxRef/p:CdtrAcct/p:Id/p:Othr/p:Id", namespaces=NS) == "DEAN-IT-0001-ALPHA"
+    assert info.findtext("p:OrgnlTxRef/p:DbtrAcct/p:Id/p:Othr/p:Id", namespaces=NS) == "EU2200000000000002"
+    assert info.findtext("p:OrgnlTxRef/p:CdtrAcct/p:Id/p:Othr/p:Id", namespaces=NS) == "EU4900000000000001"
     assert info.findtext("p:OrgnlTxRef/p:CdtrAgt/p:FinInstnId/p:BICFI", namespaces=NS) == "UNCRITM1XXX"
 
 
@@ -106,12 +106,12 @@ def test_parse_reads_each_return(two_returns):
         "RTR-0001", "E2E-DEUR-0101", "INSTR-0101",
     )
     assert (recall.reason_code, recall.additional_info) == ("FOCR", "Recall accepted: payment made by mistake")
-    assert recall.original_debtor == Party(name="Alice Rossi", other_id="DEAN-IT-0001-ALPHA")
+    assert recall.original_debtor == Party(name="Alice Rossi", other_id="EU4900000000000001")
     assert recall.original_creditor == Party(name="Shop SRL", iban="IT60X0542811101000000654321")
     assert (recall.original_debtor_agent_bic, recall.original_creditor_agent_bic) == ("UNCRITM1XXX", "BCITITMMXXX")
     assert (closed.original_amount, closed.returned_amount, closed.currency) == (None, Decimal("45.50"), "EUR")
     assert (closed.original_transaction_id, closed.reason_code) == ("TX-0102", "AC04")
-    assert closed.original_creditor == Party(other_id="DEAN-IT-0002-BETA")
+    assert closed.original_creditor == Party(other_id="EU2200000000000002")
     assert payment_return.total_amount == Decimal("165.50")
 
 

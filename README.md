@@ -37,7 +37,7 @@ xml = build_pacs008(CustomerCreditTransfer(
     transactions=[CreditTransfer(
         end_to_end_id="E2E-DEUR-0101",
         amount=Decimal("120.00"),
-        debtor=Party(name="Alice Rossi", other_id="DEAN-IT-0001-ALPHA"),
+        debtor=Party(name="Alice Rossi", other_id="EU4900000000000001"),
         creditor=Party(name="Shop SRL", iban="IT60X0542811101000000654321"),
         debtor_agent_bic="UNCRITM1XXX",
         remittance_info="Order 2026-1006",
@@ -108,8 +108,9 @@ refusal = rejected_report_xml(original_message_id="PSPCORE-0001", end_to_end_ids
 ```
 
 A party is an IBAN (`IT60X0542811101000000654321`) or another id such as a DEAN
-(`DEAN-IT-0001-ALPHA`). To check what a system under test *sends*, pass it
-to `validate`.
+(`EU4900000000000001`: `EU`, two check digits and the 14-digit BEAN, rulebook v0.9
+FUR.07; shaped like an IBAN, `pacs.testing` never writes it as one). To check what a
+system under test *sends*, pass it to `validate`.
 
 ## Tests
 
