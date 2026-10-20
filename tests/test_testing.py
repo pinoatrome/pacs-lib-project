@@ -32,10 +32,10 @@ def test_every_sample_is_valid_against_the_schema(make):
 
 def test_a_credit_transfer_is_what_was_asked():
     [tx] = parse_pacs008(credit_transfer_xml(
-        message_id="M-1", end_to_end_id="E-1", amount="45.50", debtor="DEAN-A", creditor="IT60X0542811101000000654321",
+        message_id="M-1", end_to_end_id="E-1", amount="45.50", debtor="EU9300000000666666", creditor="IT60X0542811101000000654321",
         remittance_info="Order 7")).transactions
     assert (tx.end_to_end_id, tx.amount, tx.debtor.other_id, tx.creditor.iban, tx.remittance_info) == (
-        "E-1", Decimal("45.50"), "DEAN-A", "IT60X0542811101000000654321", "Order 7")
+        "E-1", Decimal("45.50"), "EU9300000000666666", "IT60X0542811101000000654321", "Order 7")
 
 
 def test_a_settled_report_is_the_default():

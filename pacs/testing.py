@@ -7,6 +7,7 @@ complete, valid pacs.002; pass what the test is about. Ids default to `TEST-...`
 """
 from __future__ import annotations
 
+import re
 from collections.abc import Sequence
 from datetime import datetime, timezone
 from decimal import Decimal
@@ -21,14 +22,19 @@ from .validation import validate
 CREATED = datetime(2026, 10, 10, 12, 0, tzinfo=timezone.utc)
 
 
+# A digital euro account number (rulebook v0.9, FUR.07): `EU`, two check digits and the 14-digit BEAN.
+DEAN = re.compile(r"^EU\d{16}$")
+
+
 def _party(account: str) -> Party:
-    """An IBAN (starting with two letters and two digits) or another id, e.g. a DEAN."""
-    return Party(iban=account) if account[:2].isalpha() and account[2:4].isdigit() else Party(other_id=account)
+    """An IBAN (starting with two letters and two digits, not a DEAN) or another id, e.g. a DEAN."""
+    iban = account[:2].isalpha() and account[2:4].isdigit() and not DEAN.match(account)
+    return Party(iban=account) if iban else Party(other_id=account)
 
 
 def credit_transfer_xml(
     *, message_id: str = "TEST-PAY-0001", end_to_end_id: str = "TEST-E2E-0001", amount: str = "120.00",
-    debtor: str = "DEAN-IT-0001-ALPHA", creditor: str = "DEAN-IT-0004-DELTA", debtor_agent_bic: str | None = "UNCRITM1XXX",
+    debtor: str = "EU4900000000000001", creditor: str = "EU6500000000000004", debtor_agent_bic: str | None = "UNCRITM1XXX",
     creditor_agent_bic: str | None = None, remittance_info: str | None = None, created: datetime = CREATED,
 ) -> bytes:
     """A valid pacs.008 with one credit transfer."""
@@ -66,7 +72,7 @@ def status_request_xml(
 
 def payment_return_xml(
     *, original_message_id: str, original_end_to_end_id: str = "TEST-E2E-0001", amount: str = "80.00",
-    reason_code: str = "AC04", original_debtor: str = "DEAN-IT-0004-DELTA", original_creditor: str = "DEAN-IT-0001-ALPHA",
+    reason_code: str = "AC04", original_debtor: str = "EU6500000000000004", original_creditor: str = "EU4900000000000001",
     return_id: str = "TEST-RTR-0001", message_id: str = "TEST-RTRMSG-0001", created: datetime = CREATED,
 ) -> bytes:
     """A valid pacs.004 sending back `amount` of one original payment."""

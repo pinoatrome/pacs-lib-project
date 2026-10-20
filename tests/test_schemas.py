@@ -34,7 +34,7 @@ from pacs.validation import SCHEMA_VERSIONS
 FIXTURES = Path(__file__).parent / "fixtures"
 
 NOW = datetime(2026, 10, 11, 9, 30, tzinfo=timezone.utc)
-ALICE = Party(name="Alice Rossi", other_id="DEAN-IT-0001-ALPHA")
+ALICE = Party(name="Alice Rossi", other_id="EU4900000000000001")
 SHOP = Party(name="Shop SRL", iban="IT60X0542811101000000654321")
 
 
@@ -45,19 +45,19 @@ BUILT = {
             "E2E-DEUR-0101", Decimal("120.00"), ALICE, SHOP, instruction_id="INSTR-0101", transaction_id="TX-0101",
             debtor_agent_bic="UNCRITM1XXX", creditor_agent_bic="BCITITMMXXX", remittance_info="Order 2026-1006",
         ),
-        CreditTransfer("E2E-DEUR-0102", Decimal("45.50"), ALICE, Party(other_id="DEAN-IT-0002-BETA")),
+        CreditTransfer("E2E-DEUR-0102", Decimal("45.50"), ALICE, Party(other_id="EU2200000000000002")),
     ])),
     "pacs.004": lambda: build_pacs004(PaymentReturn("PSPRTR-0001", NOW, [
         ReturnedTransaction(
             "RTR-0001", "BCIPAY-0042", "E2E-DEUR-0420", Decimal("80.00"), FOLLOWING_CANCELLATION_REQUEST,
-            original_debtor=Party(name="Bruno Bianchi", other_id="DEAN-IT-0002-BETA"), original_creditor=ALICE,
+            original_debtor=Party(name="Bruno Bianchi", other_id="EU2200000000000002"), original_creditor=ALICE,
             original_amount=Decimal("80.00"), original_instruction_id="INSTR-0420", original_transaction_id="TX-0420",
             additional_info="Recall accepted", original_debtor_agent_bic="BCITITMMXXX",
             original_creditor_agent_bic="UNCRITM1XXX",
         ),
         ReturnedTransaction(
             "RTR-0002", "BCIPAY-0042", "E2E-DEUR-0421", Decimal("10.00"), "AC04",
-            original_debtor=Party(other_id="DEAN-IT-0002-BETA"), original_creditor=Party(other_id="DEAN-IT-0003-GAMMA"),
+            original_debtor=Party(other_id="EU2200000000000002"), original_creditor=Party(other_id="EU9200000000000003"),
         ),
     ])),
     "pacs.002": lambda: build_pacs002(PaymentStatusReport(

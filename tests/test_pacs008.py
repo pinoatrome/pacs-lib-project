@@ -21,7 +21,7 @@ def message(**changes) -> CustomerCreditTransfer:
     transfer = {
         "end_to_end_id": "E2E-DEUR-0101",
         "amount": Decimal("120.00"),
-        "debtor": Party(name="Alice Rossi", other_id="DEAN-IT-0001-ALPHA"),
+        "debtor": Party(name="Alice Rossi", other_id="EU4900000000000001"),
         "creditor": Party(name="Shop SRL", iban="IT60X0542811101000000654321"),
         "debtor_agent_bic": "UNCRITM1XXX",
         "creditor_agent_bic": "BCITITMMXXX",
@@ -48,8 +48,8 @@ def test_parses_the_header_and_every_transfer(two_payments):
     assert (first.end_to_end_id, first.instruction_id, first.amount, first.currency) == (
         "E2E-DEUR-0101", "INSTR-0101", Decimal("120.00"), "EUR",
     )
-    assert first.debtor == Party(name="Alice Rossi", other_id="DEAN-IT-0001-ALPHA")
-    assert first.creditor.account_id == "DEAN-IT-0002-BETA"
+    assert first.debtor == Party(name="Alice Rossi", other_id="EU4900000000000001")
+    assert first.creditor.account_id == "EU2200000000000002"
     assert (first.debtor_agent_bic, first.creditor_agent_bic) == ("UNCRITM1XXX", "BCITITMMXXX")
     assert first.remittance_info == "Order 2026-1006"
     assert (second.transaction_id, second.creditor.iban, second.remittance_info) == (
@@ -98,7 +98,7 @@ def test_build_writes_a_pacs008(two_payments):
     assert root.findtext("p:FIToFICstmrCdtTrf/p:GrpHdr/p:NbOfTxs", namespaces=NS) == "1"
     info = root.find("p:FIToFICstmrCdtTrf/p:CdtTrfTxInf", namespaces=NS)
     assert info.find("p:IntrBkSttlmAmt", namespaces=NS).get("Ccy") == "EUR"
-    assert info.findtext("p:DbtrAcct/p:Id/p:Othr/p:Id", namespaces=NS) == "DEAN-IT-0001-ALPHA"
+    assert info.findtext("p:DbtrAcct/p:Id/p:Othr/p:Id", namespaces=NS) == "EU4900000000000001"
     assert info.findtext("p:CdtrAcct/p:Id/p:IBAN", namespaces=NS) == "IT60X0542811101000000654321"
     # Schema order: debtor side, then creditor agent, creditor, its account.
     assert [etree.QName(child).localname for child in info] == [
